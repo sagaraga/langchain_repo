@@ -1,0 +1,234 @@
+{
+    "components": {
+        "schemas": {
+            "User": {
+                "properties": {
+                    "email": {
+                        "example": "johndoe@example.com",
+                        "type": "string"
+                    },
+                    "id": {
+                        "example": 1,
+                        "type": "integer"
+                    },
+                    "name": {
+                        "example": "John Doe",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "info": {
+        "description": "Creating basic CRUD-based REST APIs",
+        "title": "Sample REST API",
+        "version": "1.0.0"
+    },
+    "openapi": "3.0.3",
+    "paths": {
+        "/users": {
+            "delete": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "example": 1,
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "user_id"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully"
+                    },
+                    "400": {
+                        "description": "Incorrect user details"
+                    }
+                },
+                "summary": "Delete the user based on ID"
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/User",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "description": "a list of users"
+                    },
+                    "400": {
+                        "description": "User doesn't exist"
+                    }
+                },
+                "summary": "Get all users"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "example": "sagar@test.com",
+                                        "format": "email",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "example": "Sagar",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        },
+                        "description": "User added successfully"
+                    },
+                    "400": {
+                        "description": "Missing user details"
+                    }
+                },
+                "summary": "Add a new user"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "example": "newmail@test.com",
+                                        "format": "email",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "example": "New Name",
+                                        "type": "string"
+                                    },
+                                    "user_id": {
+                                        "example": 1,
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "user_id"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        },
+                        "description": "Updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid user details"
+                    }
+                },
+                "summary": "Update the user based on ID"
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "description": "User found"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "description": "User not found"
+                    }
+                },
+                "summary": "Get single user by ID"
+            }
+        }
+    },
+    "servers": [
+        {
+            "description": "Local development server",
+            "url": "http://127.0.0.1:5000"
+        }
+    ]
+}

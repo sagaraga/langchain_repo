@@ -1,0 +1,14 @@
+from langchain_core.tools import tool   
+
+@tool
+def multiply_nums(a: int, b: int) -> int:
+    """Multiply two numbers."""
+    return a * b
+
+result = multiply_nums.invoke({'a': 3, 'b': 4})
+
+print(f"Result of multiplication: {result}")
+print(f"Tool name: {multiply_nums.name}")
+print(f"Tool description: {multiply_nums.description}")
+print(f"Tool args schema: {multiply_nums.args_schema.model_json_schema}")
+print(f"Tool args: {multiply_nums.args}")

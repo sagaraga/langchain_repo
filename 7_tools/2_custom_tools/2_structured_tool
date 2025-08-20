@@ -1,0 +1,21 @@
+from langchain_core.tools import StructuredTool
+from pydantic import BaseModel, Field
+
+class MultiplyInput(BaseModel):
+    a: int = Field(required=True, description="First number to multiply")
+    b: int = Field(required=True, description="Second number to multiply")
+
+multiply_tool = StructuredTool.from_function(
+    name="multiply_tool",
+    description="A tool to multiply two numbers.",
+    args_schema=MultiplyInput,
+    return_schema=int,
+    func=lambda a, b: a * b
+)
+
+result = multiply_tool.invoke({"a": 6, "b": 4})
+print(f"Result of multiplication: {result}")
+print(f"Tool name: {multiply_tool.name}")
+print(f"Tool description: {multiply_tool.description}")
+print(f"Tool args schema: {multiply_tool.args_schema.model_json_schema}")
+print(f"Tool args: {multiply_tool.args}")

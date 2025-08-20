@@ -1,3 +1,34 @@
+# using OpenAI API models
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+load_dotenv()
+
+chat_model = ChatOpenAI()
+
+messages = [
+    SystemMessage(content='You are a good teacher in sports')
+]
+
+
+
+while True:
+    user_input = input(f"You: ")
+    if user_input.lower() == "exit":
+        exit(0)
+    messages.append(HumanMessage(content=user_input))
+
+    response = chat_model.invoke(user_input)
+    messages.append(AIMessage(content=response.content))
+    print(f"AI: {response.content}" )
+
+
+
+
+exit(0)
+
+# using huggingface API models
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder

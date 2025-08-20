@@ -1,0 +1,24 @@
+from langchain_core.tools import BaseTool
+from pydantic import BaseModel, Field
+from typing import Type
+
+class MultiplyInput(BaseModel):
+    a: int = Field(required=True, description="First number to multiply")
+    b: int = Field(required=True, description="Second number to multiply")
+
+class MultiplyTool(BaseTool):
+    name: str = "multiply_tool"
+    description: str = "A tool to multiply two numbers."
+    args_schema: Type[BaseModel] = MultiplyInput
+
+    def _run(self, a: int, b: int) -> int:
+        return a * b
+
+multiply_tool = MultiplyTool()
+
+result = multiply_tool.invoke({"a": 8, "b": 4})
+print(f"Result of multiplication: {result}")
+print(f"Tool name: {multiply_tool.name}")
+print(f"Tool description: {multiply_tool.description}")
+print(f"Tool args schema: {multiply_tool.args_schema.model_json_schema}")
+print(f"Tool args: {multiply_tool.args}")
